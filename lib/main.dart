@@ -5,13 +5,17 @@ Future<void> main() async {
   const String env = String.fromEnvironment('env', defaultValue: 'production');
   String fileName;
 
+  // Para elegir el env correr flutter run --dart-define=env=test|production
+  // Por defecto corre el local
   switch (env) {
     case 'test':
       fileName = '.env.test';
       break;
     case 'production':
-    default:
       fileName = '.env.production';
+      break;
+    default:
+      fileName = '.env.';
   }
 
   await dotenv.load(fileName: fileName);
@@ -30,10 +34,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: Scaffold(
-        appBar: AppBar(title: const Text('Probando Codemagic'), centerTitle: true),
-        body: Center(child: Text(dotenv.get('TEXTO', fallback: 'No encontrado'))),
+        appBar:
+            AppBar(title: const Text('Probando Codemagic'), centerTitle: true),
+        body:
+            Center(child: Text(dotenv.get('TEXTO', fallback: 'No encontrado'))),
       ),
     );
   }
 }
-
