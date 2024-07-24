@@ -17,16 +17,19 @@ workflows:
       - name: Setup the keystore
         script: |
           echo $KEYSTORE_FILE | base64 --decode > /tmp/keystore.jks
-          cat >> "$CM_BUILD_DIR/android/key.properties" << EOF
+          cat > "$CM_BUILD_DIR/android/key.properties" << EOF
           storePassword=$KEYSTORE_PASSWORD
           keyPassword=$KEYSTORE_KEY_PASSWORD
           keyAlias=deployment_tutorial
           storeFile=/tmp/keystore.jks
           EOF
+      - name: Create .env file
+        script: |
+          echo "$TEXTO" > "$CM_BUILD_DIR/.env"
       - name: Build AAB
         script: |
           cd $CM_BUILD_DIR
-          flutter packages pub get
+          flutter pub get
           flutter build appbundle --release
     artifacts:
       - build/**/outputs/**/*.aab
@@ -35,6 +38,7 @@ workflows:
         credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT
         track: internal
         submit_as_draft: true
+
   android-workflow:
     name: Android Workflow
     instance_type: mac_mini_m1
