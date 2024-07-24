@@ -21,7 +21,7 @@ workflows:
           storePassword=$KEYSTORE_PASSWORD
           keyPassword=$KEYSTORE_KEY_PASSWORD
           keyAlias=upload
-          storeFile=/tmp/upload-keystore.jks
+          storeFile=/tmp/keystore.jks
           EOF
       - name: Create .env file
         script: |
