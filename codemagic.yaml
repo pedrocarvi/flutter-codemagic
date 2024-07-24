@@ -20,8 +20,8 @@ workflows:
           cat > "$CM_BUILD_DIR/android/key.properties" << EOF
           storePassword=$KEYSTORE_PASSWORD
           keyPassword=$KEYSTORE_KEY_PASSWORD
-          keyAlias=deployment_tutorial
-          storeFile=/tmp/keystore.jks
+          keyAlias=upload
+          storeFile=/tmp/upload-keystore.jks
           EOF
       - name: Create .env file
         script: |
