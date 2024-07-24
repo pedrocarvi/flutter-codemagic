@@ -27,7 +27,7 @@ workflows:
         script: |
           cd $CM_BUILD_DIR
           flutter packages pub get
-          flutter build appbundle --build-number=$PROJECT_BUILD_NUMBER
+          flutter build appbundle --release
     artifacts:
       - build/**/outputs/**/*.aab
     publishing:
