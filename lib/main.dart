@@ -1,24 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
-  const String env = String.fromEnvironment('env', defaultValue: 'production');
-  String fileName;
-
-  // Para elegir el env correr flutter run --dart-define=env=test|production
-  // Por defecto corre el local
-  switch (env) {
-    case 'test':
-      fileName = '.env.test';
-      break;
-    case 'production':
-      fileName = '.env.production';
-      break;
-    default:
-      fileName = '.env.';
-  }
-
-  await dotenv.load(fileName: fileName);
   runApp(const MyApp());
 }
 
@@ -36,8 +18,14 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar:
             AppBar(title: const Text('Probando Codemagic'), centerTitle: true),
-        body:
-            Center(child: Text(dotenv.get('TEXTO', fallback: 'No encontrado'))),
+        body: Column(
+          children: [
+            Center(child: Text('Nueva feature')),
+            Center(
+                child: ElevatedButton(
+                    child: Text('Boton nuevo'), onPressed: () => print("Hola")))
+          ],
+        ),
       ),
     );
   }
