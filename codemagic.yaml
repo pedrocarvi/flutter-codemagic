@@ -1,5 +1,5 @@
 workflows:
-  android-deploy-test-workflow:
+  android-deploy-workflow:
     name: Android Deployment Workflow
     branches:
       only: test
@@ -40,6 +40,7 @@ workflows:
         credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT
         track: internal
         submit_as_draft: true
+
   android-workflow:
     name: Android Workflow
     instance_type: mac_mini_m1
@@ -49,7 +50,34 @@ workflows:
         - google_credentials # <-- (Includes GCLOUD_KEY_FILE, GOOGLE_CREDENTIALS)
       vars:
         FIREBASE_PROJECT: "fe-community-dev"
-      flstrumentation \
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Build APK with Flutter
+        script: |
+          flutter build apk --debug
+      - name: Create debug and test APK
+        script: |
+          set -ex
+          cd android
+          ./gradlew app:assembleAndroidTest
+          ./gradlew app:assembleDebug -Ptarget="$CM_BUILD_DIR/integration_test/app_test.dart"
+      - name: Run Firebase Test Lab tests
+        script: |
+          set -ex
+
+          echo $GCLOUD_KEY_FILE | base64 --decode > ./gcloud_key_file.json
+
+          gcloud auth activate-service-account --key-file=gcloud_key_file.json
+
+          gcloud --quiet config set project $FIREBASE_PROJECT
+
+          gcloud firebase test android run \
+            --type instrumentation \
             --app build/app/outputs/apk/debug/app-debug.apk \
             --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
             --timeout 3m
@@ -100,31 +128,4 @@ workflows:
       - name: Run tests in Firebase Test Lab
         script: gcloud firebase test ios run --test "build/ios_integ/Build/Products/ios_tests.zip"
     artifacts:
-      - "**/ios_tests.zip"utter: stable
-      xcode: latest
-      cocoapods: default
-    scripts:
-      - name: Get Flutter packages
-        script: |
-          flutter packages pub get
-      - name: Build APK with Flutter
-        script: |
-          flutter build apk --debug
-      - name: Create debug and test APK
-        script: |
-          set -ex
-          cd android
-          ./gradlew app:assembleAndroidTest
-          ./gradlew app:assembleDebug -Ptarget="$CM_BUILD_DIR/integration_test/app_test.dart"
-      - name: Run Firebase Test Lab tests
-        script: |
-          set -ex
-
-          echo $GCLOUD_KEY_FILE | base64 --decode > ./gcloud_key_file.json
-
-          gcloud auth activate-service-account --key-file=gcloud_key_file.json
-
-          gcloud --quiet config set project $FIREBASE_PROJECT
-
-          gcloud firebase test android run \
-            --type in
+      - "**/ios_tests.zip"
