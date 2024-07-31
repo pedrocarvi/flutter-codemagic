@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
             Center(child: Text('Nueva feature')),
             Center(
                 child: ElevatedButton(
-                    child: Text('Boton nuevo'), onPressed: () => print("Hola")))
+                    child: Text('Boton nueva feature'), onPressed: () => print("Hola")))
           ],
         ),
       ),
