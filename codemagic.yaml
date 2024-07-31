@@ -6,9 +6,14 @@ workflows:
     triggering:
       events:
         - push
-      branch_patterns:
-        - test
-      cancel_previous_builds: true
+    branch_patterns:              
+      - pattern: '*'
+        include: true
+        source: true           
+    tag_patterns:            
+      - pattern: '*'
+        include: true
+    cancel_previous_builds: true
     environment:
       groups:
         - google_credentials
