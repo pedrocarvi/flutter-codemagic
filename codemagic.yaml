@@ -34,8 +34,9 @@ workflows:
       - name: Build AAB
         script: |
           cd $CM_BUILD_DIR
+          CURRENT_BUILD_NUMBER=$(google-play get-latest-build-number --package-name "com.codemagic_test.app" --tracks="internal")
           flutter pub get
-          flutter build appbundle --release
+          flutter build appbundle --release --build-number=$(($CURRENT_BUILD_NUMBER + 1))
     artifacts:
       - build/**/outputs/**/*.aab
     publishing:
