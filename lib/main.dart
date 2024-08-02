@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
                     child: Text('Boton nueva feature'),
                     onPressed: () => print("Hola"))
             ),
-            Center(child: Text("La mejor si esto aparece en la pantalla"))
+            Center(child: Text("La mejor si esto aparece en la pantalla")),
+            Center(child: Text('OAAAAAAAAAAAAAAAAAAAAA'))
           ],
         ),
       ),
