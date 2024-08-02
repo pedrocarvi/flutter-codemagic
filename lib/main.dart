@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
             Center(
                 child: ElevatedButton(
                     child: Text('Boton nueva feature'),
-                    onPressed: () => print("Hola")))
+                    onPressed: () => print("Hola"))
+            ),
+            Center(child: Text("La mejor si esto aparece en la pantalla"))
           ],
         ),
       ),
