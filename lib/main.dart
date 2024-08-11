@@ -20,10 +20,14 @@ class MyApp extends StatelessWidget {
             AppBar(title: const Text('Probando Codemagic'), centerTitle: true),
         body: Column(
           children: [
-            Center(child: Text('Nueva feature')),
+            Center(child: Text('Nueva feature je')),
             Center(
                 child: ElevatedButton(
-                    child: Text('Boton nueva feature'), onPressed: () => print("Hola")))
+                    child: Text('Boton nueva feature'),
+                    onPressed: () => print("Hola"))
+            ),
+            Center(child: Text("La mejor si esto aparece en la pantalla")),
+            Center(child: Text('OAAAAAAAAAAAAAAAAAAAAA'))
           ],
         ),
       ),
