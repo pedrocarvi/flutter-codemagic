@@ -45,16 +45,25 @@ workflows:
     name: iOS Workflow
     instance_type: mac_mini_m1
     max_build_duration: 60
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: 'test'
+          include: true
+          source: false 
+      cancel_previous_builds: true
     integrations:
       app_store_connect: codemagic
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.avalian.avapocket # Bundle ID de la app
+        bundle_identifier: com.avalian.avapocket
       vars:
-        APP_ID: 6618155014 # <-- APP ID
+        APP_ID: 6618155014
       flutter: stable
-      xcode: latest # Se puede poner version especifica
+      xcode: latest
       cocoapods: default
     scripts:
       - name: Set up code signing settings on Xcode project
