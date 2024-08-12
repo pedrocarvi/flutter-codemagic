@@ -55,7 +55,7 @@ workflows:
           source: false 
       cancel_previous_builds: true
     integrations:
-      app_store_connect: codemagic
+      app_store_connect: codemagic test appstore connect
     environment:
       ios_signing:
         distribution_type: app_store
