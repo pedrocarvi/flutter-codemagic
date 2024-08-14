@@ -77,14 +77,13 @@ workflows:
           find . -name "Podfile" -execdir pod install \;
       - name: Flutter build ipa
         script: |
-          LATEST_VERSION=$(app-store-connect get-latest-testflight-build-number --platform IOS com.yourcompany.yourapp)
+          LATEST_VERSION=$(app-store-connect get-latest-testflight-build-number)
           IFS='.' read -r -a VERSION_PARTS <<< "$LATEST_VERSION"
           PATCH_VERSION=${VERSION_PARTS[2]}
-          echo "Patch Version: $PATCH_VERSION"
+          echo "Latest version: $LATEST_VERSION"
           echo "Patch Version: $PATCH_VERSION"
           flutter build ipa --release \
             --build-name=$NEW_VERSION \
-            --build-number=$PATCH_VERSION \
             --export-options-plist=/Users/builder/export_options.plist
     artifacts:
       - build/ios/ipa/*.ipa
