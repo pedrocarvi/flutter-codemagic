@@ -77,7 +77,7 @@ workflows:
           find . -name "Podfile" -execdir pod install \;
       - name: Flutter build ipa
         script: |
-          LATEST_VERSION=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
+          LATEST_VERSION=$(app-store-connect get-latest-app-store-build-number "$APP_STORE_APPLE_ID")
           IFS='.' read -r -a VERSION_PARTS <<< "$LATEST_VERSION"
           PATCH_VERSION=$((${VERSION_PARTS[2]} + 1))
           NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH_VERSION"
