@@ -76,19 +76,18 @@ workflows:
         script: | 
           find . -name "Podfile" -execdir pod install \;
       - name: Flutter build ipa
-        script: | 
-          MAJOR_MINOR_VERSION="3.2" 
-          LATEST_BUILD=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
-          LATEST_BUILD_SUFFIX=$(echo $LATEST_BUILD | sed "s/^$MAJOR_MINOR_VERSION.//")
-          if [ -z "$LATEST_BUILD_SUFFIX" ]; then
-            NEW_BUILD_SUFFIX=0
-          else
-            NEW_BUILD_SUFFIX=$((LATEST_BUILD_SUFFIX + 1))
-          fi
-          BUILD_NUMBER="$MAJOR_MINOR_VERSION.$NEW_BUILD_SUFFIX"
+        script: |
+          LATEST_VERSION=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID")
+          IFS='.' read -r -a VERSION_PARTS <<< "$LATEST_VERSION"
+          PATCH_VERSION=$((${VERSION_PARTS[2]} + 1))
+          NEW_VERSION="${VERSION_PARTS[0]}.${VERSION_PARTS[1]}.$PATCH_VERSION"
+          echo "Latest Version: $LATEST_VERSION"
+          echo "Patch Version: $PATCH_VERSION"
+          echo "New Version: $NEW_VERSION
           flutter build ipa --release \
-            --build-name=$BUILD_NUMBER \
-            --export-options-plist=/Users/builder/export_options.plist           
+            --build-name=$NEW_VERSION \
+            --build-number=$PATCH_VERSION \
+            --export-options-plist=/Users/builder/export_options.plist
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
