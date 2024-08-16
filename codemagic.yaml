@@ -75,7 +75,7 @@ workflows:
       - name: Install pods
         script: | 
           find . -name "Podfile" -execdir pod install \;
-      - name: Update app version
+      - name: Flutter build ipa
         script: |
           #!/bin/bash
           # Obtener la versión actual de pubspec.yaml
@@ -86,8 +86,6 @@ workflows:
           # El sed -i funciona en entorno Mac. Si la maquina es Linux, entonces sacarle los ''
           sed -i '' "s/^version: .*/version: $new_version/" pubspec.yaml
           echo "New version: $new_version"
-      - name: Flutter build ipa
-        script: |
           flutter build ipa --release \
             --build-name=$new_version \
             --export-options-plist=/Users/builder/export_options.plist
