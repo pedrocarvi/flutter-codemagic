@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
             Center(child: Text("La mejor si esto aparece en la pantalla")),
             Center(child: Text("Funciona o no funciona?")),
             Center(child: Text("Se")),            
-            Center(child: Text("Si la version que se sube es 3.4, god")),            
+            Center(child: Text("Q onda")),            
           ],
         ),
       ),
