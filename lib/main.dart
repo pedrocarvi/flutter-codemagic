@@ -27,7 +27,9 @@ class MyApp extends StatelessWidget {
                     onPressed: () => print("Hola"))
             ),
             Center(child: Text("La mejor si esto aparece en la pantalla")),
-            Center(child: Text('OAAAAAAAAAAAAAAAAAAAAA'))
+            Center(child: Text("Funciona o no funciona?")),
+            Center(child: Text("Se")),            
+            Center(child: Text("Si la version que se sube es 3.4, god")),            
           ],
         ),
       ),
